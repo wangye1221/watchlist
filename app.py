@@ -49,21 +49,16 @@ def forge():
     db.session.commit()
     click.echo('Done.')
 
+@app.context_processor
+def inject_user() -> dict:
+    user = User.query.first()
+    return dict(user=user)
+
+@app.errorhandler(404) #传入要处理的错误代码
+def page_not_found(e) -> 'html':
+    return render_template('404.html'), 404
+
 @app.route('/')
 def index() -> 'html':
-    user = User.query.first()
     movies = Movie.query.all()
-    return render_template('index.html', name=user, movies=movies)
-
-@app.route('/user/<name>')
-def user_page(name: str) -> str:
-    return 'User %s' % name
-
-@app.route('/test')
-def test_url_for() -> str:
-    print(url_for('index'))
-    print(url_for('user_page', name = 'BigYe'))
-    print(url_for('user_page', name = 'WillWang'))
-    print(url_for('test_url_for'))
-    print(url_for('test_url_for', num = 2))
-    return 'Test page'
+    return render_template('index.html', movies=movies)
