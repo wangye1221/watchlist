@@ -3,15 +3,21 @@
     <head>
         <meta charset="utf-8">
         <title>{{ name }}的电影清单</title>
+        <link rel="icon" href="{{ url_for('static', filename='yhy_logo.png') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
     </head>
     <body>
-        <h2>{{ name }}的电影清单</h2>
+        <h2>
+            <img alt="Avatar" class="avatar" src="{{ url_for('static', filename='images/avatar.png') }}">
+            {{ name }}的电影清单
+        </h2>
         <p>{{ movies|length}}部电影</p>
-        <ul>
+        <ul class="movie-list">
             {% for movie in movies %}
             <li>{{ movie.title }} - {{ movie.year }}</li>
             {% endfor %}
         </ul>
+        <img alt="Walking Totoro" class="totoro" src="{{ url_for('static', filename='images/totoro.gif') }}">
         <footer>
             <small>&copy; 2020 CallMeBigYe</small>
         </footer>
