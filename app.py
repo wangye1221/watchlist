@@ -72,7 +72,7 @@ def edit(movie_id) -> 'html':
         year = request.form['year']
         if not title or not year or len(year) > 4 or len(title) > 60:
             flash('请输入适合的字段长度')
-            return redirect(url_for('eidt', movie_id=movie_id))
+            return redirect(url_for('edit', movie_id=movie_id))
         movie.title = title
         movie.year = year
         db.session.commit()
