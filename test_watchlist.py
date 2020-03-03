@@ -1,6 +1,6 @@
 import unittest
 from watchlist import app, db
-from watchlist.models import Movie, User
+from watchlist.models import Movie, User, MessageBoard
 from watchlist.commands import forge, initdb
 
 class WatchlistTestCase(unittest.TestCase):
@@ -84,6 +84,42 @@ class WatchlistTestCase(unittest.TestCase):
         response = self.client.post('/', data=dict(
             title = 'New Movie 2',
             year = ''
+        ), follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertNotIn('添加成功', data)
+        self.assertIn('请输入适合的字段长度', data)
+
+    #测试留言板功能
+    def test_messageboard(self):
+        
+        #测试留言板页面设置
+        response = self.client.get('/messageboard')
+        data = response.get_data(as_text=True)
+        self.assertIn('怎么称呼？', data)
+        self.assertIn('留言板', data)
+
+        #测试创建留言板操作
+        response = self.client.post('/messageboard', data=dict(
+            username = '测试账号',
+            content = '测试消息测试消息测试消息测试消息测试消息'
+        ), follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertIn('添加成功', data)
+        self.assertIn('测试账号', data)
+
+        #测试创建留言板操作,但用户名为空
+        response = self.client.post('/messageboard', data=dict(
+            username = '',
+            content = '测试消息测试消息测试消息测试消息测试消息'
+        ), follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertNotIn('添加成功', data)
+        self.assertIn('请输入适合的字段长度', data)
+
+        #测试创建留言板操作，但内容为空
+        response = self.client.post('/messageboard', data=dict(
+            username = '测试账号',
+            content = ''
         ), follow_redirects=True)
         data = response.get_data(as_text=True)
         self.assertNotIn('添加成功', data)

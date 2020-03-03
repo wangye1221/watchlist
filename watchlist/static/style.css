@@ -105,6 +105,11 @@ input[name=year] {
     border-radius: 5px;
 }
 
+/* 修饰多行输入栏 */
+textarea {
+    width: 100%;
+}
+
 /* 其他 */
 .float-right {
     float: right;

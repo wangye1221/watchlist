@@ -1,7 +1,7 @@
 from flask import render_template, request, url_for, redirect, flash
 from flask_login import login_user, login_required, logout_user, current_user
 from watchlist import app, db
-from watchlist.models import User, Movie
+from watchlist.models import User, Movie, MessageBoard
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -21,6 +21,22 @@ def index() -> 'html':
         return redirect(url_for('index'))
     movies = Movie.query.all()
     return render_template('index.html', movies=movies)
+
+@app.route('/messageboard', methods=['GET', 'POST'])
+def messageboard() -> 'html':
+    if request.method == 'POST':
+        username = request.form.get('username')
+        content = request.form.get('content')
+        if not username or not content or len(username) > 20 or len(content) > 200:
+            flash('请输入适合的字段长度')
+            return redirect(url_for('messageboard'))
+        messageboard = MessageBoard(username=username, content=content)
+        db.session.add(messageboard)
+        db.session.commit()
+        flash('添加成功')
+        return redirect(url_for('messageboard'))
+    messageboard = MessageBoard.query.all()
+    return render_template('messages.html', messageboard=messageboard)
 
 @app.route('/movie/edit/<int:movie_id>', methods=['GET', 'POST'])
 @login_required

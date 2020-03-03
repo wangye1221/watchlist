@@ -20,10 +20,10 @@ db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 
 @login_manager.user_loader
-def load_user(user_id):
+def load_user(user_id): #创建用户加载回调函数，接收用户ID作为参数
     from watchlist.models import User
-    user = User.query.get(int(user_id))
-    return user
+    user = User.query.get(int(user_id)) #用ID作为User模型的主键查询对应的用户
+    return user #返回用户对象
 
 login_manager.login_view = 'login'
 

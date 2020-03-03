@@ -26,6 +26,7 @@
                 {% else %}
                 <li><a href="{{ url_for('login') }}">登录</a></li>
                 {% endif %}
+                <li class="float-right"><a href="{{ url_for('messageboard') }}">留言板</a></li>
             </ul>
         </nav>
         {% block content %}

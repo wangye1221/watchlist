@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>留言板</h3>
+<form method="POST">
+    怎么称呼？<br>
+    <input type="text" name="username" required><br><br>
+    内容<br>
+    <textarea name="content" required></textarea><br><br>
+    <input type="submit" name="submit" class="btn" value="提交">
+</form>
+<h3>{{ messageboard|length }}条留言</h3>
+<ul>
+    {% for message in messageboard %}
+    <li>
+        <div>
+            <a>{{ message.username }}</a>
+            <span class="float-right">{{ message.ctime }}</span>
+        </div>
+        <p>{{ message.content }}</p>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock content %}
