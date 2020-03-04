@@ -1,4 +1,4 @@
-#!e:\learn\python\watchlist\watchlist.env\scripts\python.exe
+#!d:\learn\python\watchlist\watchlist.env\scripts\python.exe
 # EASY-INSTALL-ENTRY-SCRIPT: 'coverage==5.0.3','console_scripts','coverage-3.8'
 __requires__ = 'coverage==5.0.3'
 import re
